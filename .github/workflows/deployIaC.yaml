@@ -57,8 +57,8 @@ jobs:
       with:
         azcliversion: latest
         inlineScript: |
-          # Resource-group-scoped deployment (easier debugging)
-          az deployment group create \
+          # subscription scoped deployment (easier debugging)
+          az deployment sub create \
             --resource-group ${{ env.RESOURCE_GROUP }} \
             --template-file infra/main.bicep \
             --parameters \
