@@ -42,15 +42,30 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-    - name: deploy
-      uses: azure/arm-deploy@v1
+    # - name: deploy
+    #   uses: azure/arm-deploy@v1
+    #   with:
+    #     subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    #     scope: subscription
+    #     region: ${{ env.REGION }}
+    #     template: ./infra/main.bicep
+    #     parameters: resourcegroup="${{ env.RESOURCE_GROUP }}" aksclustername="${{ env.CLUSTER_NAME }}" adminusername="${{ env.ADMIN_USERNAME }}" sshpublickey="${{ secrets.SSH_PUBLIC_KEY }}"
+    #     failOnStdErr: false
+
+    - name: Deploy infra with Azure CLI
+      uses: azure/cli@v1
       with:
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        scope: subscription
-        region: ${{ env.REGION }}
-        template: ./infra/main.bicep
-        parameters: resourcegroup="${{ env.RESOURCE_GROUP }}" aksclustername="${{ env.CLUSTER_NAME }}" adminusername="${{ env.ADMIN_USERNAME }}" sshpublickey="${{ secrets.SSH_PUBLIC_KEY }}"
-        failOnStdErr: false
+        azcliversion: latest
+        inlineScript: |
+          # Resource-group-scoped deployment (easier debugging)
+          az deployment group create \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --template-file infra/main.bicep \
+            --parameters \
+              aksclustername=${{ env.CLUSTER_NAME }} \
+              adminusername=${{ env.ADMIN_USERNAME }} \
+              sshpublickey="${{ secrets.SSH_PUBLIC_KEY }}"
+
     - name: Set AKS context
       id: set-context
       uses: azure/aks-set-context@v3
