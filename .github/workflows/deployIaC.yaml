@@ -25,7 +25,7 @@ on:
         required: true
         options:
           - sumvita
-          
+
 permissions:
   id-token: write # This is required for requesting the JWT
   contents: read  # This is required for actions/checkout
@@ -57,6 +57,16 @@ jobs:
       with:
         resource-group: '${{ env.RESOURCE_GROUP }}' 
         cluster-name: '${{ env.CLUSTER_NAME }}'
+
+    # NEW: create the Docker registry secret for pulling private images
+    - name: Create GHCR pull secret
+      run: |
+        kubectl create secret docker-registry runnersecret \
+          --docker-server=https://${{ env.REGISTRY }} \
+          --docker-username=${{ github.repository }} \
+          --docker-password=${{ secrets.RUNNER_TOKEN }} \
+          -n actions-runner-system
+          
     - name: Install Runner
       run: |
           kubectl apply -f ./runner/cert-manager.yaml 

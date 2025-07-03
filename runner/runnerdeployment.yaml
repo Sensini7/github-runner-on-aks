@@ -6,5 +6,8 @@ spec:
   replicas: 1
   template:
     spec:
-      repository: yaronpri/GithubRunnerOnAKS
+      repository: sensini7/github-runner-on-aks
       #organization: <YOUR ORG NAME IF WANT TO WORK AT ORG LEVEL>  
+      image: ghcr.io/sensini7/github-runner-on-aks:main
+      imagePullSecrets:
+      - name: runnersecret
