@@ -27,7 +27,7 @@ resource akscluster 'Microsoft.ContainerService/managedClusters@2023-09-02-previ
         name: 'agentpool'
         osDiskSizeGB: 30
         count: 1
-        vmSize: 'Standard_DS2_v2'
+        vmSize: 'Standard_DS2_v3'
         osType: 'Linux'
         mode: 'System'
       }
