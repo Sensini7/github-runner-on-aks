@@ -45,7 +45,7 @@ jobs:
     - name: deploy
       uses: azure/arm-deploy@v1
       with:
-        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION }}
+        subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         scope: subscription
         region: ${{ env.REGION }}
         template: ./infra/main.bicep
@@ -66,7 +66,7 @@ jobs:
           --docker-username=${{ github.repository }} \
           --docker-password=${{ secrets.RUNNER_TOKEN }} \
           -n actions-runner-system
-          
+
     - name: Install Runner
       run: |
           kubectl apply -f ./runner/cert-manager.yaml 
