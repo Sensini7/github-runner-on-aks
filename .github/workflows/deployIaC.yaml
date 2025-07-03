@@ -5,7 +5,7 @@ env:
   RESOURCE_GROUP: 'aksrunners-rg'
   CLUSTER_NAME: 'aksrunners-aks'
   ADMIN_USERNAME: 'aksadmin'
-  REGION: 'westeurope'
+  REGION: 'eastus'
   REGISTRY: ghcr.io
   IMAGE_NAME: "${{ github.repository }}"
 # Controls when the action will run. 
@@ -59,9 +59,10 @@ jobs:
         inlineScript: |
           # subscription scoped deployment (easier debugging)
           az deployment sub create \
-            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --location ${{ env.REGION }} \
             --template-file infra/main.bicep \
             --parameters \
+              resourcegroup=${{ env.RESOURCE_GROUP }} \
               aksclustername=${{ env.CLUSTER_NAME }} \
               adminusername=${{ env.ADMIN_USERNAME }} \
               sshpublickey="${{ secrets.SSH_PUBLIC_KEY }}"
