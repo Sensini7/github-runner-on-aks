@@ -1,5 +1,5 @@
 @description('Azure region of the deployment')
-param location string = resourceGroup().location
+param location string
 
 @description('AKS resource name')
 param clusterName string
@@ -14,7 +14,7 @@ param adminusername string
 @secure()
 param sshPubKey string
 
-resource akscluster 'Microsoft.ContainerService/managedClusters@2023-09-02-preview' = {
+resource akscluster 'Microsoft.ContainerService/managedClusters@2025-02-01' = {
   name: clusterName
   location: location
   identity: {

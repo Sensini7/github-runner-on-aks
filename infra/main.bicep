@@ -1,6 +1,6 @@
 targetScope = 'subscription'
 
-param location string = deployment().location
+param location string
 
 @minLength(1)
 @maxLength(16)
@@ -19,7 +19,7 @@ param sshpublickey string
 
 
 /* RESOURCE GROUP */
-resource rg 'Microsoft.Resources/resourceGroups@2020-06-01' = {
+resource rg 'Microsoft.Resources/resourceGroups@2025-02-01' = {
   name: resourcegroup
   location: location
 }
