@@ -1,5 +1,5 @@
 @description('Azure region of the deployment')
-param location string
+param location string = resourceGroup().location
 
 @description('AKS resource name')
 param clusterName string
@@ -14,7 +14,7 @@ param adminusername string
 @secure()
 param sshPubKey string
 
-resource akscluster 'Microsoft.ContainerService/managedClusters@2025-02-01' = {
+resource akscluster 'Microsoft.ContainerService/managedClusters@2022-05-02-preview' = {
   name: clusterName
   location: location
   identity: {
@@ -27,7 +27,7 @@ resource akscluster 'Microsoft.ContainerService/managedClusters@2025-02-01' = {
         name: 'agentpool'
         osDiskSizeGB: 30
         count: 1
-        vmSize: 'Standard_DS2_v3'
+        vmSize: 'Standard_DS2_v2'
         osType: 'Linux'
         mode: 'System'
       }
