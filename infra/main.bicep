@@ -39,4 +39,3 @@ module aks 'resources/aks.bicep' = {
 output aksclusterfqdn string = aks.outputs.aksclusterfqdn
 output aksresourceid string = aks.outputs.aksresourceid
 output aksresourcename string = aks.outputs.aksresourcename
-
